@@ -108,7 +108,7 @@
     "yargs": "~17.7.2"
   },
   "scripts": {
-    "postinstall": "yarn build:prod",
+    "postinstall": "yarn build",
     "install-hooks": "node scripts/githooks/install.js",
     "clean": "rimraf lib/ dist/",
     "bundle-dts": "tsc --noEmit --allowJs dts-config.js && dts-bundle-generator --config dts-config.js",
