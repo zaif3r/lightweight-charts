@@ -16,7 +16,6 @@
   "main": "index.cjs",
   "typings": "dist/typings.d.ts",
   "exports": {
-    "./src": "./src",
     "./package.json": "./package.json",
     ".": {
       "development": {
@@ -37,7 +36,6 @@
     }
   },
   "files": [
-    "src/**",
     "dist/**"
   ],
   "keywords": [
@@ -110,12 +108,12 @@
     "yargs": "~17.7.2"
   },
   "scripts": {
-    "postinstall": "npm run install-hooks",
+    "postinstall": "yarn build:prod",
     "install-hooks": "node scripts/githooks/install.js",
     "clean": "rimraf lib/ dist/",
     "bundle-dts": "tsc --noEmit --allowJs dts-config.js && dts-bundle-generator --config dts-config.js",
     "tsc": "ttsc -p tsconfig.prod.json",
-    "tsc-watch": "npm run tsc -- --watch --preserveWatchOutput",
+    "tsc-watch": "yarn tsc -- --watch --preserveWatchOutput",
     "tsc-verify": "node website/scripts/generate-versions-dts.js && tsc -b tsconfig.composite.json",
     "lint": "npm-run-all -p lint:**",
     "lint:eslint": "eslint --format=unix ./",
@@ -123,12 +121,12 @@
     "check-dts-docs": "eslint --format=unix ./dist/typings.d.ts",
     "check-markdown-links": "node scripts/check-markdown-links.js",
     "rollup": "rollup -c rollup.config.js",
-    "rollup-watch": "npm run rollup -- --watch",
+    "rollup-watch": "yarn rollup -- --watch",
     "build": "npm-run-all tsc rollup bundle-dts",
     "build:watch": "npm-run-all tsc -p tsc-watch rollup-watch",
-    "build:prod": "cross-env NODE_ENV=production npm run build",
-    "build:release": "cross-env BUILD_TAG=release npm run build:prod",
-    "prepare-release": "npm-run-all clean build:release && npm run prepare-package-json-for-release",
+    "build:prod": "cross-env NODE_ENV=production yarn build",
+    "build:release": "cross-env BUILD_TAG=release yarn build:prod",
+    "prepare-release": "npm-run-all clean build:release && yarn prepare-package-json-for-release",
     "prepare-package-json-for-release": "node ./scripts/clean-package-json.js",
     "size-limit": "size-limit",
     "verify": "npm-run-all clean -p build:prod check-markdown-links -p lint check-dts-docs tsc-verify test size-limit",
