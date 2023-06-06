@@ -15,7 +15,7 @@ import { IDestroyable } from '../helpers/idestroyable';
 import { makeFont } from '../helpers/make-font';
 
 import { ChartOptionsInternal } from '../model/chart-model';
-import { Coordinate } from '../model/coordinate';
+/* import { Coordinate } from '../model/coordinate'; */
 import { IDataSource } from '../model/idata-source';
 import { InvalidationLevel } from '../model/invalidate-mask';
 import { IPriceDataSource } from '../model/iprice-data-source';
@@ -192,7 +192,7 @@ export class PriceAxisWidget implements IDestroyable {
 			}
 		}
 
-		const firstValue = this._priceScale.firstValue();
+		/* const firstValue = this._priceScale.firstValue();
 		if (firstValue !== null && this._size !== null) {
 			const topValue = this._priceScale.coordinateToPrice(1 as Coordinate, firstValue);
 			const bottomValue = this._priceScale.coordinateToPrice(this._size.height - 2 as Coordinate, firstValue);
@@ -202,7 +202,9 @@ export class PriceAxisWidget implements IDestroyable {
 				this._widthCache.measureText(ctx, this._priceScale.formatPrice(Math.floor(Math.min(topValue, bottomValue)) + 0.11111111111111, firstValue)),
 				this._widthCache.measureText(ctx, this._priceScale.formatPrice(Math.ceil(Math.max(topValue, bottomValue)) - 0.11111111111111, firstValue))
 			);
-		}
+		} */
+
+		tickMarkMaxWidth = Math.max(tickMarkMaxWidth, rendererOptions.width);
 
 		ctx.restore();
 

@@ -176,6 +176,8 @@ export interface PriceScaleOptions {
 	 * @defaultValue `false`
 	 */
 	ticksVisible: boolean;
+
+	width: number;
 }
 
 interface RangeCache {

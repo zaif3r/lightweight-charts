@@ -1,6 +1,6 @@
 /*!
  * @license
- * TradingView Lightweight Charts™ v4.1.1-dev+202306050643
+ * TradingView Lightweight Charts™ v4.1.2-dev+202306052353
  * Copyright (c) 2023 TradingView, Inc.
  * Licensed under Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
@@ -546,6 +546,7 @@ class PriceAxisRendererOptionsProvider {
             _internal_paddingOuter: 0,
             _internal_paddingTop: 0,
             _internal_baselineOffset: 0,
+            _internal_width: 0,
         };
         this._private__chartModel = chartModel;
     }
@@ -565,7 +566,11 @@ class PriceAxisRendererOptionsProvider {
         }
         rendererOptions._internal_color = this._private__textColor();
         rendererOptions._internal_paneBackgroundColor = this._private__paneBackgroundColor();
+        rendererOptions._internal_width = this._private__width();
         return this._private__rendererOptions;
+    }
+    _private__width() {
+        return this._private__chartModel._internal_options().rightPriceScale.width;
     }
     _private__textColor() {
         return this._private__chartModel._internal_options().layout.textColor;
@@ -9003,12 +9008,18 @@ class PriceAxisWidget {
                 tickMarkMaxWidth = width;
             }
         }
-        const firstValue = this._private__priceScale._internal_firstValue();
-        if (firstValue !== null && this._private__size !== null) {
-            const topValue = this._private__priceScale._internal_coordinateToPrice(1, firstValue);
-            const bottomValue = this._private__priceScale._internal_coordinateToPrice(this._private__size.height - 2, firstValue);
-            tickMarkMaxWidth = Math.max(tickMarkMaxWidth, this._private__widthCache._internal_measureText(ctx, this._private__priceScale._internal_formatPrice(Math.floor(Math.min(topValue, bottomValue)) + 0.11111111111111, firstValue)), this._private__widthCache._internal_measureText(ctx, this._private__priceScale._internal_formatPrice(Math.ceil(Math.max(topValue, bottomValue)) - 0.11111111111111, firstValue)));
-        }
+        /* const firstValue = this._priceScale.firstValue();
+        if (firstValue !== null && this._size !== null) {
+            const topValue = this._priceScale.coordinateToPrice(1 as Coordinate, firstValue);
+            const bottomValue = this._priceScale.coordinateToPrice(this._size.height - 2 as Coordinate, firstValue);
+
+            tickMarkMaxWidth = Math.max(
+                tickMarkMaxWidth,
+                this._widthCache.measureText(ctx, this._priceScale.formatPrice(Math.floor(Math.min(topValue, bottomValue)) + 0.11111111111111, firstValue)),
+                this._widthCache.measureText(ctx, this._priceScale.formatPrice(Math.ceil(Math.max(topValue, bottomValue)) - 0.11111111111111, firstValue))
+            );
+        } */
+        tickMarkMaxWidth = Math.max(tickMarkMaxWidth, rendererOptions._internal_width);
         ctx.restore();
         const resultTickMarksMaxWidth = tickMarkMaxWidth || 34 /* Constants.DefaultOptimalWidth */;
         const res = Math.ceil(rendererOptions._internal_borderSize +
@@ -11767,6 +11778,7 @@ const priceScaleOptionsDefaults = {
         bottom: 0.1,
         top: 0.2,
     },
+    width: 0,
 };
 
 const timeScaleOptionsDefaults = {
@@ -12558,7 +12570,7 @@ function createChart(container, options) {
  * Returns the current version as a string. For example `'3.3.0'`.
  */
 function version() {
-    return "4.1.1-dev+202306050643";
+    return "4.1.2-dev+202306052353";
 }
 
 export { ColorType, CrosshairMode, LastPriceAnimationMode, LineStyle, LineType, MismatchDirection, PriceLineSource, PriceScaleMode, TickMarkType, TrackingModeExitMode, createChart, isBusinessDay, isUTCTimestamp, version };

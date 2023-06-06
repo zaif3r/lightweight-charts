@@ -2031,6 +2031,7 @@ export interface PriceScaleOptions {
 	 * @defaultValue `false`
 	 */
 	ticksVisible: boolean;
+	width: number;
 }
 /**
  * Represents a generic range `from` one value `to` another.
