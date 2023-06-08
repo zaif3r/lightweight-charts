@@ -1,4 +1,3 @@
-import { MouseEventParamsImpl } from '../gui/chart-widget';
 import { DeepPartial } from '../helpers/strict-type-checks';
 
 import { ChartOptions } from '../model/chart-model';
@@ -224,7 +223,7 @@ export interface IChartApi {
 		index: TimePointIndex | null,
 		point: Point | null,
 		event: TouchMouseEventData | null
-	): MouseEventParamsImpl;
+	): MouseEventParams;
 
 	/**
 	 * Unsubscribe a handler that was previously subscribed using {@link subscribeCrosshairMove}.

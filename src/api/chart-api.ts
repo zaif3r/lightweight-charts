@@ -156,8 +156,8 @@ export class ChartApi implements IChartApi, DataUpdatesConsumer<SeriesType> {
 		index: TimePointIndex | null,
 		point: Point | null,
 		event: TouchMouseEventData | null
-	): MouseEventParamsImpl {
-		return this._chartWidget.getMouseEventParamsImpl(index, point, event);
+	): MouseEventParams {
+		return this._convertMouseParams(this._chartWidget.getMouseEventParamsImpl(index, point, event));
 	}
 
 	public remove(): void {
