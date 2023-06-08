@@ -1,3 +1,4 @@
+import { MouseEventParamsImpl } from '../gui/chart-widget';
 import { DeepPartial } from '../helpers/strict-type-checks';
 
 import { ChartOptions } from '../model/chart-model';
@@ -11,7 +12,7 @@ import {
 	LineSeriesPartialOptions,
 	SeriesType,
 } from '../model/series-options';
-import { Logical, Time } from '../model/time-data';
+import { Logical, Time, TimePointIndex } from '../model/time-data';
 import { TouchMouseEventData } from '../model/touch-mouse-event-data';
 
 import { BarData, HistogramData, LineData } from './data-consumer';
@@ -218,6 +219,13 @@ export interface IChartApi {
 	subscribeCrosshairMove(handler: MouseEventHandler): void;
 
 	setCrosshairXY(x: number, y: number, visible: boolean): void;
+
+	getMouseEventParams(
+		index: TimePointIndex | null,
+		point: Point | null,
+		event: TouchMouseEventData | null
+	): MouseEventParamsImpl;
+
 	/**
 	 * Unsubscribe a handler that was previously subscribed using {@link subscribeCrosshairMove}.
 	 *
