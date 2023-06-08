@@ -280,6 +280,14 @@ export class ChartWidget implements IDestroyable {
 		return this._options.autoSize && this._observer !== null;
 	}
 
+	public getMouseEventParamsImpl(
+		index: TimePointIndex | null,
+		point: Point | null,
+		event: TouchMouseEventData | null
+	): MouseEventParamsImpl {
+		return this._getMouseEventParamsImpl(index, point, event);
+	}
+
 	// eslint-disable-next-line complexity
 	private _applyAutoSizeOptions(options: DeepPartial<ChartOptionsInternal>): void {
 		if (options.autoSize === undefined && this._observer && (options.width !== undefined || options.height !== undefined)) {
