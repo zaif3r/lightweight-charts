@@ -1,6 +1,6 @@
 /*!
  * @license
- * TradingView Lightweight Charts™ v4.1.2-dev+202306052353
+ * TradingView Lightweight Charts™ v4.1.2-dev+202306082124
  * Copyright (c) 2023 TradingView, Inc.
  * Licensed under Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0
  */
@@ -9759,6 +9759,20 @@ class PaneWidget {
     _internal_rightPriceAxisWidget() {
         return this._private__rightPriceAxisWidget;
     }
+    _internal_setCrosshair(xx, yy, visible) {
+        if (!this._private__state) {
+            return;
+        }
+        if (visible) {
+            const x = xx;
+            const y = yy;
+            this._private__setCrosshairPositionNoFire(x, y);
+        }
+        else {
+            this._private__state._internal_model()._internal_setHoveredSource(null);
+            this._private__clearCrosshairPosition();
+        }
+    }
     _private__onStateDestroyed() {
         if (this._private__state !== null) {
             this._private__state._internal_onDestroyed()._internal_unsubscribeAll(this);
@@ -9878,20 +9892,6 @@ class PaneWidget {
     }
     _private__setCrosshairPosition(x, y, event) {
         this._private__model()._internal_setAndSaveCurrentPosition(this._private__correctXCoord(x), this._private__correctYCoord(y), event, ensureNotNull(this._private__state));
-    }
-    _internal_setCrosshair(xx, yy, visible) {
-        if (!this._private__state) {
-            return;
-        }
-        if (visible) {
-            const x = xx;
-            const y = yy;
-            this._private__setCrosshairPositionNoFire(x, y);
-        }
-        else {
-            this._private__state._internal_model()._internal_setHoveredSource(null);
-            this._private__clearCrosshairPosition();
-        }
     }
     _private__setCrosshairPositionNoFire(x, y) {
         this._private__model()._internal_setAndSaveCurrentPositionFire(this._private__correctXCoord(x), this._private__correctYCoord(y), false, ensureNotNull(this._private__state));
@@ -10660,6 +10660,9 @@ class ChartWidget {
     }
     _internal_autoSizeActive() {
         return this._private__options.autoSize && this._private__observer !== null;
+    }
+    _internal_getMouseEventParamsImpl(index, point, event) {
+        return this._private__getMouseEventParamsImpl(index, point, event);
     }
     // eslint-disable-next-line complexity
     _private__applyAutoSizeOptions(options) {
@@ -12423,6 +12426,9 @@ class ChartApi {
     setCrosshairXY(x, y, visible) {
         this._private__chartWidget._internal_paneWidgets()[0]._internal_setCrosshair(x, y, visible);
     }
+    _internal_getMouseEventParams(index, point, event) {
+        return this._private__chartWidget._internal_getMouseEventParamsImpl(index, point, event);
+    }
     remove() {
         this._private__chartWidget._internal_clicked()._internal_unsubscribeAll(this);
         this._private__chartWidget._internal_crosshairMoved()._internal_unsubscribeAll(this);
@@ -12570,7 +12576,7 @@ function createChart(container, options) {
  * Returns the current version as a string. For example `'3.3.0'`.
  */
 function version() {
-    return "4.1.2-dev+202306052353";
+    return "4.1.2-dev+202306082124";
 }
 
 export { ColorType, CrosshairMode, LastPriceAnimationMode, LineStyle, LineType, MismatchDirection, PriceLineSource, PriceScaleMode, TickMarkType, TrackingModeExitMode, createChart, isBusinessDay, isUTCTimestamp, version };

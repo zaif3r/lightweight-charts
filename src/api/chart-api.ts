@@ -6,6 +6,7 @@ import { warn } from '../helpers/logger';
 import { clone, DeepPartial, isBoolean, merge } from '../helpers/strict-type-checks';
 
 import { ChartOptions, ChartOptionsInternal } from '../model/chart-model';
+import { Point } from '../model/point';
 import { Series } from '../model/series';
 import { SeriesPlotRow } from '../model/series-data';
 import {
@@ -24,7 +25,8 @@ import {
 	SeriesStyleOptionsMap,
 	SeriesType,
 } from '../model/series-options';
-import { Logical, Time } from '../model/time-data';
+import { Logical, Time, TimePointIndex } from '../model/time-data';
+import { TouchMouseEventData } from '../model/touch-mouse-event-data';
 
 import { DataUpdatesConsumer, isFulfilledData, SeriesDataItemTypeMap } from './data-consumer';
 import { DataLayer, DataUpdateResponse, SeriesChanges } from './data-layer';
@@ -148,6 +150,14 @@ export class ChartApi implements IChartApi, DataUpdatesConsumer<SeriesType> {
 
 	public setCrosshairXY(x: number, y: number, visible: boolean): void {
 		this._chartWidget.paneWidgets()[0].setCrosshair(x, y, visible);
+	}
+
+	public getMouseEventParams(
+		index: TimePointIndex | null,
+		point: Point | null,
+		event: TouchMouseEventData | null
+	): MouseEventParamsImpl {
+		return this._chartWidget.getMouseEventParamsImpl(index, point, event);
 	}
 
 	public remove(): void {
